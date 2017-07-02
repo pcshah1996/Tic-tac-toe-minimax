@@ -22,7 +22,6 @@ public:
     virtual ~Table();
 
     void clear();
-
     void setMove(int x, int y, Player player);
     Player getMove(int x, int y);
 
