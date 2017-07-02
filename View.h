@@ -24,7 +24,12 @@ public:
 private:
     int x_;
     int y_;
+    int c_x_;
+    int c_y_;
     //Controller *control_;
+
+    void updateCenter();
+    void drawGrid(int x, int y);
 
     void setX(int x) {
         x_ = x;
@@ -34,7 +39,7 @@ private:
         y_ = y;
     }
 
-    void end(std::string msg);
+    void end();
 };
 
 #endif
