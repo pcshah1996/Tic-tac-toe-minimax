@@ -2,8 +2,7 @@
 #include "View.h"
 
 int main(int argc, const char **argv) {
-    //Controller control;
-    View view;//(/*control*/);
+    View view;
     view.start();
 
     return 0;

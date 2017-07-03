@@ -6,7 +6,7 @@
 
 class View {
 public:
-    View(/*Controller control*/);
+    View();
     virtual ~View();
 
     void start();
@@ -26,7 +26,7 @@ private:
     int y_;
     int c_x_;
     int c_y_;
-    //Controller *control_;
+    Controller* control_;
 
     void updateCenter();
     void drawGrid(int x, int y);

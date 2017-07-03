@@ -3,6 +3,9 @@
 #include <ncurses.h>
 #include <iostream>
 
+#include "HumanController.h"
+#include "MinimaxController.h"
+
 static const std::string kLoading = "Loading components...";
 static constexpr int kLoadingOffset = 10;
 static const std::string kHDiv = "--------+--------+--------";
@@ -10,7 +13,7 @@ static const std::string kVDiv = "        |        |        ";
 static constexpr int kDivOffset = 12;
 
 
-View::View(/*Controller control*/) {
+View::View() {
     initscr();
     updateCenter();
     mvprintw(c_y_, c_x_ - kLoadingOffset, kLoading.c_str());
@@ -22,14 +25,13 @@ View::View(/*Controller control*/) {
     ESCDELAY = 0;
     keypad(stdscr, true);
 
-    //control_ = &control;
     // center of the board
     setX(1);
     setY(1);
 }
 
 View::~View() {
-    //delete control_;
+    delete control_;
 }
 
 void View::updateCenter() {
@@ -38,6 +40,25 @@ void View::updateCenter() {
 }
 
 void View::start() {
+    int response;
+    do {
+        clear();
+        updateCenter();
+        std::string prompt = "Play another human (1) or the algorithm (2)?";
+        mvprintw(c_y_, c_x_ - (prompt.length() / 2), prompt.c_str());
+        refresh();
+        response = getch();
+    } while (/*response != 50 ||*/ response != 49);
+
+    if (response == 1) {
+        HumanController hc;// = new HumanController(3, 3);
+        control_ = &hc;
+    } else {
+        MinimaxController mc;
+        control_ = &mc;
+    }
+    draw();
+
     while(1) {
         updateCenter();
         command();
@@ -108,10 +129,10 @@ void View::command() {
     int tempX = getX() + dX;
     int tempY = getY() + dY;
 
-    if (/*tempX < control_->getMaxX() &&*/ tempX >= 0) {
+    if (tempX < control_->getMaxX() && tempX >= 0) {
         setX(tempX);
     }
-    if (/*tempY < control_->getMaxY() &&*/ tempY >= 0) {
+    if (tempY < control_->getMaxY() && tempY >= 0) {
         setY(tempY);
     }
 }
